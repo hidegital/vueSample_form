@@ -1,0 +1,52 @@
+@keyframes fade-in
+  0%
+    display  none
+    opacity  0
+
+  1%
+    display  block
+    opacity  0
+
+  100%
+    display  block
+    opacity  1
+
+@keyframes translate
+  0%
+    transform  translate(-40%, 0)
+    opacity    0
+  50%
+    transform  translate(-30%, 0)
+    opacity    0.1
+  75%
+    transform  translate(-20%, 0)
+    opacity    0.5
+  100%
+    transform  translate(5%, 0)
+    opacity    1
+
+@keyframes translateReverse
+  100%
+    transform  translate(-40%, 0)
+    opacity    0
+  75%
+    transform  translate(-30%, 0)
+    opacity    0.1
+  50%
+    transform  translate(-20%, 0)
+    opacity    0.5
+  0%
+    transform  translate(5%, 0)
+    opacity    1
+
+@keyframes toggleOpen
+  0%
+    height 0
+  100%
+    height 135px
+
+@keyframes toggleClose
+  0%
+    height 100px
+  100%
+    height 0

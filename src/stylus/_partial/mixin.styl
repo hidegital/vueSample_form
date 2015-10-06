@@ -1,0 +1,124 @@
+@import "variables"
+
+clearfix()
+  &:before,
+  &:after
+    content " "
+    display table
+  &:after
+    clear both
+ofEllipsis()
+  white-space nowrap
+  text-overflow ellipsis
+  overflow hidden
+
+triangleOut(scaleW, scaleH, borderWidth, color, rotation = true)
+	width scaleW
+	height scaleH
+	border-top borderWidth solid color
+	border-right borderWidth solid color
+	content ""
+	if rotation==true
+		transform rotate(45deg)
+
+
+/*btn系*/
+secondary_btn()
+  width 30%
+  height 10%
+  border solid 3px main-color
+  font-size 1.8rem
+  color main-color
+  span
+    &:after
+      triangleOut(5px, 5px, 3px, main-color)
+      margin-left 5px
+      display inline-block
+      margin-bottom 2px
+  @media screen and (min-width 801px)
+    &:hover
+      color #fff
+      background main-color
+    &:active
+      background-color main-color
+      color #fff
+  @media screen and (max-width 800px)
+    &:active
+      transition background-color 0.3s linear
+      background-color main-color
+      color #fff
+      span
+        &:after
+          triangleOut(5px, 5px, 3px, #fff)
+
+
+//袋文字2px
+open_face_2px(color)
+  text-shadow:
+  color 0 2px 2px,
+  color 0 1px 1px,
+  color 1px 1px 1px,
+  color 1px 0 1px,
+  color 2px 0 1px,
+  color 1px -1px 1px,
+  color 1px -2px 1px,
+  color 0 -2px 1px,
+  color -1px -2px 1px,
+  color -2px -2px 1px,
+  color -2px -1px 1px,
+  color -2px 0 1px,
+  color -2px 1px 1px,
+  color -1px 1px 1px
+
+//袋文字1px
+open_face_1px(color)
+  text-shadow:
+  color 0 1px 1px,
+  color 0 0 1px,
+  color 1px 0 1px,
+  color 0 -1px 1px,
+  color -1px -1px 1px,
+  color -1px 0 1px
+
+/*チェックマーク*/
+check_mark(width, height, borderWidth, color, pos = true)
+  width width
+  height height
+  border solid borderWidth color
+  border-left 0
+  border-top 0
+  transform translateY(-50%) rotate(45deg)
+  if pos
+    position absolute
+    display block
+    content ""
+
+
+/*placeholder*/
+$logo
+  margin auto
+  width 80%
+  display flex
+  img
+    vertical-align bottom
+    border none
+
+$boxTxt
+  span
+    line-height 2.8rem
+    display block
+    font-size 1.8rem
+    &.lineBrake
+      display inline-block
+
+$iconImagePotion
+  width 70%
+  position absolute
+  z-index 10
+  top 28%
+
+$fontHiragino
+  font-family Hiragino Kaku Gothic ProN,'ヒラギノ角ゴ ProN W3', Meiryo, 'メイリオ',sans-serif,Arial
+
+$fontHelvetica
+  font-family Helvetica, Hiragino Kaku Gothic ProN,'ヒラギノ角ゴ ProN W3', Meiryo, 'メイリオ',sans-serif, Arial
