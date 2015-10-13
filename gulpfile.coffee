@@ -40,7 +40,7 @@ prettify = require 'gulp-prettify'
 sitemap = require 'gulp-sitemap'
 
 del = require 'del'
-#runSequence = require 'run-sequence'
+runSequence = require 'run-sequence'
 header  = require 'gulp-header'
 
 coffee  = require 'gulp-coffee'
@@ -109,6 +109,9 @@ b.on 'update', bundle
 gulp.task 'js', bundle
 b.on 'update', bundle
 b.on 'log', gutil.log
+
+gulp.task 'jsReload', (callback) ->
+    runSequence 'js', 'bsReload', callback
 
 #customOpts =
 #    entries: [ './src/js/app.js' ]
@@ -180,9 +183,13 @@ gulp.task 'stylus', ->
     .on('error', console.error.bind(console))
     .pipe (header('@charset "utf-8";\n'))
     .pipe (gulp.dest('./dist/css/'))
-    .on('end', reload);
 
 
+gulp.task 'stylusReload', (callback) ->
+  runSequence 'stylus', 'bsReload', callback
+
+
+#  sass使うときは上記の用にrunSequenceで直列にする
 gulp.task 'sass', ->
     return sass './src/scss/',{sourcemap: true}
 #  gulp.src ['src/scss/*.scss','!' + 'src/scss/**/_*.scss'] gulp-sassでの書き方
@@ -198,32 +205,42 @@ gulp.task 'sass', ->
     .on('error', console.error.bind(console))
     .pipe (header('@charset "utf-8";\n'))
     .pipe (gulp.dest('./dist/css/'))
-    .on('end', reload);
 
 gulp.task 'csslint', ->
     gulp.src(distCss + '/*.css')
         .pipe csslint()
         .pipe csslint.reporter()
 
-#gulp.task 'jade', ->
-#    gulp.src ["src/jade/**/*.jade",'!' + "src/jade/**/_*.jade"]
+gulp.task 'jade', ->
+    gulp.src ["src/jade/**/*.jade",'!' + "src/jade/**/_*.jade"]
+    .pipe plumber()
+    .pipe(data((file) ->
+          require './src/data/list.json'
+      ))
+    .pipe jade(
+        pretty: true
+    )
+    .pipe gulp.dest DEST
+
+gulp.task 'jadeReload', (callback) ->
+    runSequence 'jade', 'bsReload', callback
+
+#gulp.task 'ejs', ->
+#    gulp.src ["src/ejs/**/*.ejs",'!' + "src/ejs/**/_*.ejs"]
 #    .pipe plumber()
-#    .pipe jade(
-#        pretty: true
-#    )
+#    .pipe ejs()
 #    .pipe gulp.dest DEST
 
-
-gulp.task 'ejs', ->
-    gulp.src ["src/ejs/**/*.ejs",'!' + "src/ejs/**/_*.ejs"]
-    .pipe plumber()
-    .pipe ejs()
-    .pipe gulp.dest DEST
+#gulp.task 'ejsReload', (callback) ->
+#    runSequence 'ejs', 'bsReload', callback
 
 gulp.task 'htmlhint', ->
     gulp.src('./dist/*.html')
         .pipe htmlhint()
         .pipe htmlhint.reporter()
+
+gulp.task 'bsReload', ->
+    browserSync.reload()
 
 #sprite
 gulp.task 'spriteStylus', ->
@@ -315,10 +332,6 @@ gulp.task 'htmlprettify', ->
         .pipe gulp.dest('./build')
 
 
-gulp.task 'bsReload', ->
-    browserSync.reload()
-
-
 gulp.task 'json', ->
     gulp.src('src/data/*.json')
         .pipe jsonminify()
@@ -337,16 +350,23 @@ gulp.task 'copyimg', ->
 gulp.task 'watch', ->
 #    gulp.watch scssPath + '/*.scss', ['sass','bsReload']
 #    gulp.watch scssPath + '/*.scss', ['sass','csslint','bsReload']
-    gulp.watch [stylusPath + '/*.styl',stylusPath + '/_partial/*.styl'], ['stylus','bsReload']
-    gulp.watch ['src/ejs/**/*.ejs', 'src/ejs/**/_*.ejs'], ['ejs','htmlhint','htmlprettify','bsReload']
-    gulp.watch ['src/js/*.js'], ['js' ,'bsReload']
+    gulp.watch [stylusPath + '/*.styl',stylusPath + '/_partial/*.styl'], ['stylusBuild']
+#    gulp.watch ['src/ejs/**/*.ejs', 'src/ejs/**/_*.ejs'], ['ejsReload','htmlhint','htmlprettify']
+    gulp.watch ['src/jade/**/*.jade', 'src/jade/**/_*.jade'], ['jadeReload','htmlhint','htmlprettify']
+    gulp.watch ['src/js/*.js'], ['jsReload']
     gulp.watch ['src/js/lib/*.js'], ['jsBundle' ,'bsReload']
+
+
+
 
 #TODO clean dell使う？？ sitemap生成試す
 gulp.task 'default', ['watch', 'browserSync','copyimg','distjson','jsBundle']
+gulp.task 'dist', ['copyimg','distjson','jsBundle']
 gulp.task 'lint', ['csslint']
 gulp.task 'build', ['imagemin','cssmin','jsmin','htmlprettify','json','buildJsBundle']
 
+#gulp.task 'default', (callback) ->
+#  runSequence 'dist', 'watchReload','bsReload', callback
 
 
 
