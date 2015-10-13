@@ -365,8 +365,6 @@ gulp.task 'dist', ['copyimg','distjson','jsBundle']
 gulp.task 'lint', ['csslint']
 gulp.task 'build', ['imagemin','cssmin','jsmin','htmlprettify','json','buildJsBundle']
 
-#gulp.task 'default', (callback) ->
-#  runSequence 'dist', 'watchReload','bsReload', callback
 
 
 
