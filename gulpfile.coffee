@@ -88,10 +88,37 @@ spritesmith = require 'gulp.spritesmith'
 
 gutil = require 'gulp-util'
 _ = require 'underscore'
-DEST = "./dist";
-SRC = "./src";
+DEST = './dist'
+SRC = './src'
 
-#
+
+rev = require 'gulp-rev'
+revReplace = require 'gulp-rev-replace'
+useref = require 'gulp-useref'
+gulpif = require 'gulp-if'
+
+
+gulp.task 'index', ->
+    gulp.src([
+        'dist/css/*.css'
+        'dist/css/**/*css'
+        'dist/js/*.js'
+        'dist/js/**/*.js'
+    ], base: 'dist')
+    .pipe(gulp.dest('dist'))
+    .pipe(rev())
+    .pipe(gulp.dest('build/'))
+    .pipe(rev.manifest())
+    .pipe gulp.dest('dist')
+
+
+gulp.task 'revreplace', ->
+    manifest = gulp.src('./dist' + '/rev-manifest.json')
+    gulp.src('./dist' + '/index.html')
+        .pipe(revReplace(manifest: manifest))
+        .pipe gulp.dest('./build')
+
+
 customOpts =
     entries: ["#{SRC}/js/app.js"]
     debug: true
@@ -211,16 +238,22 @@ gulp.task 'csslint', ->
         .pipe csslint()
         .pipe csslint.reporter()
 
+consolidateOptions =
+    pathName: 'test'
+
 gulp.task 'jade', ->
     gulp.src ["src/jade/**/*.jade",'!' + "src/jade/**/_*.jade"]
-    .pipe plumber()
-    .pipe(data((file) ->
-          require './src/data/list.json'
-      ))
-    .pipe jade(
-        pretty: true
-    )
-    .pipe gulp.dest DEST
+        .pipe(data((file) ->
+            require './src/data/list.json'
+        ))
+        .pipe consolidate 'jade',
+            consolidateOptions
+        .pipe plumber()
+        .pipe jade(
+            pretty: true
+        )
+        .pipe gulp.dest DEST
+
 
 gulp.task 'jadeReload', (callback) ->
     runSequence 'jade', 'bsReload', callback
@@ -350,13 +383,11 @@ gulp.task 'copyimg', ->
 gulp.task 'watch', ->
 #    gulp.watch scssPath + '/*.scss', ['sass','bsReload']
 #    gulp.watch scssPath + '/*.scss', ['sass','csslint','bsReload']
-    gulp.watch [stylusPath + '/*.styl',stylusPath + '/_partial/*.styl'], ['stylusBuild']
+    gulp.watch [stylusPath + '/*.styl',stylusPath + '/_partial/*.styl'], ['stylusReload']
 #    gulp.watch ['src/ejs/**/*.ejs', 'src/ejs/**/_*.ejs'], ['ejsReload','htmlhint','htmlprettify']
     gulp.watch ['src/jade/**/*.jade', 'src/jade/**/_*.jade'], ['jadeReload','htmlhint','htmlprettify']
     gulp.watch ['src/js/*.js'], ['jsReload']
     gulp.watch ['src/js/lib/*.js'], ['jsBundle' ,'bsReload']
-
-
 
 
 #TODO clean dell使う？？ sitemap生成試す
@@ -364,6 +395,8 @@ gulp.task 'default', ['watch', 'browserSync','copyimg','distjson','jsBundle']
 gulp.task 'dist', ['copyimg','distjson','jsBundle']
 gulp.task 'lint', ['csslint']
 gulp.task 'build', ['imagemin','cssmin','jsmin','htmlprettify','json','buildJsBundle']
+
+
 
 
 
