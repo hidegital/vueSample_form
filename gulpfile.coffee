@@ -136,16 +136,19 @@ gulp.task 'stylus', ->
     .pipe csscomb()
     .on('error', console.error.bind(console))
     .pipe (header('@charset "utf-8";\n'))
-    .pipe (gulp.dest(stylusPath))
+    .pipe (gulp.dest(distCss))
 
+gulp.task 'cleanCss', ->
+    del('./dist/css/*.css')
 
 gulp.task 'stylusReload', (callback) ->
-  runSequence 'stylus', 'bsReload', callback
-
+  runSequence 'cleanCss','stylus', 'bsReload', callback
 
 #templeteに変数を渡す jadeのjsonと同時に使えない
 #consolidateOptions =
 #    pathName: 'test'
+#        .pipe consolidate 'jade',
+#            consolidateOptions
 
 #htmltemplate
 gulp.task 'jade', ->
@@ -153,8 +156,6 @@ gulp.task 'jade', ->
         .pipe(data((file) ->
             require './src/data/list.json'
         ))
-#        .pipe consolidate 'jade',
-#            consolidateOptions
         .pipe plumber()
         .pipe jade(
             pretty: true
@@ -271,8 +272,7 @@ gulp.task 'copyimg', ->
         .pipe gulp.dest('dist/img')
 
 gulp.task 'imgclean', ->
-    del(['dist/images/*.+(jpg|jpeg|png|gif|svg)','dist/images/**/*.+(jpg|jpeg|png|gif|svg)'])
-    del(['build/images/*.+(jpg|jpeg|png|gif|svg)','build/images/**/*.+(jpg|jpeg|png|gif|svg)'])
+    del(['dist/img/*.+(jpg|jpeg|png|gif|svg)','dist/img/**/*.+(jpg|jpeg|png|gif|svg)'])
 
 gulp.task 'cleanDir', ->
     del('./build/*')
@@ -283,10 +283,15 @@ gulp.task 'watch', ->
     gulp.watch ['src/jade/**/*.jade', 'src/jade/**/_*.jade'], ['jadeReload','htmlhint','htmlprettify']
     gulp.watch ['src/js/*.js'], ['jsReload']
     gulp.watch ['src/js/lib/*.js'], ['jsBundle' ,'bsReload']
+    gulp.watch ['src/img/*.+(jpg|jpeg|png|gif|svg)','src/img/**/*.+(jpg|jpeg|png|gif|svg)'], ['imgclean','copyimg']
 
 
 #task
-gulp.task 'default', ['watch', 'browserSync','copyimg','distjson','jsBundle']
+#gulp.task 'default', ['watch', 'browserSync','copyimg','distjson','jsBundle']
+gulp.task 'default', (callback) ->
+    runSequence 'stylusReload','jadeReload','jsReload',
+                ['watch', 'browserSync','copyimg','distjson','jsBundle'], callback
+
 
 #delが上手くいかない時があるのでエラーが出たら再度叩く
 gulp.task 'build', (callback) ->
