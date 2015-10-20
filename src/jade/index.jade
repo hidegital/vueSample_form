@@ -2,11 +2,15 @@ doctype html
 html(lang="en")
     head
         title= pageTitle
+        meta(charset="UTF-8")
         <link rel="stylesheet" href="css/style.css"/>
-        <script src="js/app.js"></script>
-    body
+        <title>Vue Components Sample</title>
+    body(id="app")
+        <h1>Vue Components Sample</h1>
         p #{id}
-            //span #{pathName}
+        <vue-sample v-repeat="items"></vue-sample>
+        <script src="js/app.js"></script>
+
 
 
 

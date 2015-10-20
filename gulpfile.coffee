@@ -100,8 +100,8 @@ gulp.task 'js', ->
         entries: [
             './src/js/app.js'
         ]
-    .transform 'babelify'
-    .transform 'vueify'
+    .transform ['babelify','vueify']
+#    .transform 'vueify'
     .bundle()
     .pipe source 'app.js'
     .pipe gulp.dest distJs
@@ -153,8 +153,8 @@ gulp.task 'jade', ->
         .pipe(data((file) ->
             require './src/data/list.json'
         ))
-        .pipe consolidate 'jade',
-            consolidateOptions
+#        .pipe consolidate 'jade',
+#            consolidateOptions
         .pipe plumber()
         .pipe jade(
             pretty: true
