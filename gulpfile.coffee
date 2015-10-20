@@ -185,9 +185,10 @@ gulp.task 'spriteStylus', ->
     .pipe spritesmith
         imgName: 'sprite.png',
         cssName: 'sprite.styl',
+        algorithm: 'binary-tree',
+        padding: 5,
         cssFormat: 'stylus'
     spriteData.img
-    .pipe gulp.dest(srcImg +  '/sprite/')
     .pipe gulp.dest('dist/img/')
     spriteData.css
     .pipe gulp.dest(stylusPath + '/_partial');
