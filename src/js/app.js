@@ -4,5 +4,7 @@ var ua           = require('./ua.js'),
 
 var userAgent = window.navigator.userAgent.toLowerCase();
 
-console.log('fff');
+console.log('ddd');
+console.log('ccc');
+
 

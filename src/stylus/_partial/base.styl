@@ -1,37 +1,10 @@
-//@import "kouto-swiss"
-//meyer-reset()
 @import 'reset'
 @import 'mixin'
+@import 'skeleton'
 
 global-reset()
 reset-html5()
 
-a
-  &:link
-    color #fff
-    text-decoration none
-  &:visited
-    color #fff
-
-*
-  box-sizing border-box
-
-html
-  font-size 62.5%
-  width 100%
-  position relative
-body
-  @extends $fontHiragino
-  color #fff
-
-html,
-body
-  height 100%
-
-
-@media screen and (max-width 800px)
-  img
-    vertical-align bottom
-    border none
-
+/*skeleton 今のとこform位*/
+form()
 
