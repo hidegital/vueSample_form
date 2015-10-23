@@ -1,0 +1,58 @@
+doctype html
+html(lang="en")
+    head
+        title= pageTitle
+        meta(charset="UTF-8")
+        <link rel="stylesheet" href="css/style.css"/>
+        <title>Vue Components Sample</title>
+    body(id="app")
+        h1 Vue Components Sample
+        p vue_form_valid_plugin
+        dl
+            <dt>ユーザ名</dt>
+            <dd>
+            <input type="text" v-model="name" v-validate="required, maxLength:12">
+            <p v-if="validation.name.required" class="error">ユーザ名は必須です</p>
+            <p v-if="validation.name.maxLength" class="error">ユーザ名が長過ぎます</p>
+            </dd>
+            <dt>ユーザID</dt>
+            <dd>
+            <input type="text" v-model="login" v-validate="required, maxLength:12, pattern:/^[0-9a-zA-Z-_]*$/">
+            <p v-if="validation.login.required" class="error">ユーザIDは必須です</p>
+            <p v-if="validation.login.maxLength" class="error">ユーザIDが長過ぎます</p>
+            <p v-if="validation.login.pattern" class="error">ユーザIDは半角英数字のみ使用可能です</p>
+            </dd>
+            <dt>メールアドレス</dt>
+            <dd>
+            <input type="email" v-model="email" v-validate="required, email">
+            <p v-if="validation.email.required" class="error">メールアドレスは必須です</p>
+            <p v-if="validation.email.email && validation.email.dirty" class="error">メールアドレスの形式が不正です！</p>
+            </dd>
+            <dt>メールアドレス 確認</dt>
+            <dd>
+            <input type="email" v-model="emailConfirm" v-validate="required, match:email">
+            <p v-if="validation.emailConfirm.match" class="error">メールアドレスが一致しません</p>
+            </dd>
+        <p v-if="invalid">入力内容にエラーがあります</p>
+        <p v-if="valid"><input type="submit" value="登録する"></p>
+
+        <script src="js/app.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

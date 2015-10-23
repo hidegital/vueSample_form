@@ -1,0 +1,46 @@
+doctype html
+html(lang="en")
+    head
+        title= pageTitle
+        meta(charset="UTF-8")
+        <link rel="stylesheet" href="css/style.css"/>
+        <title>Vue Components Sample</title>
+    body(id="app")
+        h1 Vue Components Sample
+        p vue_form_custom_valid
+        <form id="form" v-on="submit:addEvent">
+        <!-- それぞれに作ったvaidatorに通す -->
+        <p class="aaa">title:<input type="text" v-model="newEvent.title | titleValidator"></p>
+        <p>description:<input type="text" v-model="newEvent.description | descriptionValidator"></p>
+        <p>data:<input type="text" v-model="newEvent.date | dateValidator"></p>
+        <p>location:<input type="text" v-model="newEvent.location | locationValidator"></p>
+        <p>check:<input type="checkbox" v-model="newEvent.check | checkValidator"></p>
+        <input type="submit" value="Add event">
+        </form>
+        <!-- error表示欄 -->
+        <ul class="errors" v-show="">
+        <li v-show="!validation.title">title cannot be empty.</li>
+        <li v-show="!validation.description">description cannot be empty.</li>
+        <li v-show="!validation.date">date cannot be empty.</li>
+        <li v-show="!validation.location">location cannot be empty.</li>
+        <li v-show="!validation.check">check cannot be empty.</li>
+        </ul>
+
+        <script src="js/app.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

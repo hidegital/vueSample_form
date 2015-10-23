@@ -100,8 +100,8 @@ gulp.task 'js', ->
         entries: [
             './src/js/app.js'
         ]
-    .transform ['babelify','vueify']
-#    .transform 'vueify'
+    .transform 'babelify'
+    .transform 'vueify'
     .bundle()
     .pipe source 'app.js'
     .pipe gulp.dest distJs
