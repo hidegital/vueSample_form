@@ -1,0 +1,31 @@
+doctype html
+html(lang='en')
+    head
+        title
+        meta(charset='UTF-8')
+        link(rel='stylesheet', href='css/style.css')
+        title Vue Components Sample
+        script(src='js/lib/bundle.min.js')
+    body
+        h1 Vue Components Sample
+        <div id="app">
+        <form id="form" v-on="submit:addEvent">
+        <!-- それぞれに作ったvaidatorに通す -->
+        <p>title:<input v-model="newEvent.title | titleValidator"></p>
+        <p>description:<input v-model="newEvent.description | descriptionValidator"></p>
+        <p>data:<input v-model="newEvent.date | dateValidator"></p>
+        <p>location:<input v-model="newEvent.location | locationValidator"></p>
+        <input type="submit" value="Add event">
+        </form>
+        <!-- error表示欄 -->
+        <ul class="errors">
+        <li v-show="!validation.title">title cannot be empty.</li>
+        <li v-show="!validation.description">description cannot be empty.</li>
+        <li v-show="!validation.date">date cannot be empty.</li>
+        <li v-show="!validation.location">location cannot be empty.</li>
+        </ul>
+        script(src='js/app.js')
+
+
+
+

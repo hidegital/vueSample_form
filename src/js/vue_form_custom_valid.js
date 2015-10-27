@@ -1,22 +1,23 @@
 var Vue = require("vue");
-var app = module.exports = new Vue({
-    el: "#app",
+var app = new Vue({
+    // element to mount to
+    el: '#app',
+    // initial data
     data: {
         newEvent: {
             title: '',
             description: '',
             date: '',
-            location: '',
-            check: ''
+            location: ''
         },
         validation: {
             title: false,
             description: false,
             date: false,
-            location: false,
-            check: false
+            location: false
         }
     },
+    // validation
     filters: {
         titleValidator: {
             write: function (val) {
@@ -41,37 +42,10 @@ var app = module.exports = new Vue({
                 this.validation.location = !!val
                 return val
             }
-        },
-        checkValidator: {
-            write: function (val) {
-                this.validation.check = !!val
-                return val
-            }
         }
     },
-    //computed: {
-    //    nameErrors: function() {
-    //        return this.name ? []: ['名前は必須です'];
-    //    },
-    //    zipCodeErrors: function() {
-    //        return /[0-9]{7}/.test(this.zipCode) ? [] : ['郵便番号(7桁 ハイフン無し)で入力して下さい'];
-    //    },
-    //    prefectureErrors: function() {
-    //        this.prefecture === '0' ? ['都道府県を選択して下さい'] : [];
-    //    },
-    //    errors: function() {
-    //        return [].concat(this.nameErrors, this.zipCodeErrors, this.prefectureErrors);
-    //    },
-    //    valid: function() { return !errors.length; }
-    //},
     // computed property for form validation state
     computed: {
-        //titleValidator: {
-        //    write: function (val) {
-        //        this.validation.title = !!val
-        //        return val
-        //    }
-        //},
         isValid: function () {
             var valid = true
             for (var key in this.validation) {
@@ -91,7 +65,6 @@ var app = module.exports = new Vue({
             }else{
                 console.log("need edit")
             }
-        }
+        },
     }
-});
-
+})

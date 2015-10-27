@@ -13,7 +13,7 @@ var app = module.exports = new Vue({
     validator: {
         validates: {
             email: function(val){
-                return /^(([^<>()[].,;:s@"]+(.[^<>()[].,;:s@"]+)*)|(".+"))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/.test(val);
+                return /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/.test(val);
             },
             match: function(val, model){
                 return val === this[model];
@@ -21,5 +21,8 @@ var app = module.exports = new Vue({
         }
     }
 });
+
+
+
 
 

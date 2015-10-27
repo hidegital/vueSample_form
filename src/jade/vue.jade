@@ -1,0 +1,18 @@
+html
+    body
+        #sample
+            div(v-text='bind1')
+            div(v-model='bind2')
+            div {{bind3}}
+        script(src='js/vue.js')
+        script.
+            var vm = new Vue({
+                el: '#sample',
+                data: {
+                    bind1: '111',
+                    bind2: '222',
+                    bind3: '333'
+                }
+            });
+
+

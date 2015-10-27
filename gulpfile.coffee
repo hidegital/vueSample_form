@@ -295,7 +295,7 @@ gulp.task 'default', (callback) ->
 
 #delが上手くいかない時があるのでエラーが出たら再度叩く
 gulp.task 'build', (callback) ->
-    runSequence 'cleanDir','imgclean',
+    runSequence 'imgclean',
                 ['imagemin','cssmin','jsmin','htmlprettify','json','buildJsBundle'], callback
 
 #build

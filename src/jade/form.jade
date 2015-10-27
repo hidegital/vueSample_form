@@ -10,7 +10,8 @@ html(lang="en")
         p vue_form_custom_valid
         <form id="form" v-on="submit:addEvent">
         <!-- それぞれに作ったvaidatorに通す -->
-        <p class="aaa">title:<input type="text" v-model="newEvent.title | titleValidator"></p>
+        //<p class="aaa">title:<input type="text" v-model="newEvent.title | titleValidator"></p>
+        //<p class="aaa">title:<input type="text" v-on="change:checkTitle"></p>
         <p>description:<input type="text" v-model="newEvent.description | descriptionValidator"></p>
         <p>data:<input type="text" v-model="newEvent.date | dateValidator"></p>
         <p>location:<input type="text" v-model="newEvent.location | locationValidator"></p>
@@ -18,15 +19,17 @@ html(lang="en")
         <input type="submit" value="Add event">
         </form>
         <!-- error表示欄 -->
-        <ul class="errors" v-show="">
-        <li v-show="!validation.title">title cannot be empty.</li>
-        <li v-show="!validation.description">description cannot be empty.</li>
-        <li v-show="!validation.date">date cannot be empty.</li>
-        <li v-show="!validation.location">location cannot be empty.</li>
-        <li v-show="!validation.check">check cannot be empty.</li>
+        <ul class="errors">
+        //<li v-if="!validation.title">title cannot be empty.</li>
+        <li v-if="!titleFlg">title cannot be empty.</li>
+        <li v-if="!validation.description">description cannot be empty.</li>
+        <li v-if="!validation.date">date cannot be empty.</li>
+        <li v-if="!validation.location">location cannot be empty.</li>
+        <li v-if="!validation.check">check cannot be empty.</li>
         </ul>
 
         <script src="js/app.js"></script>
+
 
 
 

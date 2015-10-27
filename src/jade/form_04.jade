@@ -1,0 +1,74 @@
+doctype html
+html(lang='en')
+    head
+        title
+        meta(charset='UTF-8')
+        link(rel='stylesheet', href='css/style.css')
+        title Vue Components Sample
+        script(src='js/lib/bundle.min.js')
+    body#app
+        h1 Vue Components Sample
+        form
+            dl
+                dt
+                    label ID:
+                dd
+                    input(type='text', v-model='id', v-on='change:onCheckId', v-validate='required, minLength: 3, maxLength: 16' placeholder='hoge')
+                dd.validation
+                    span(v-show='validation.id.required && !checkFlg.id' style="display:none") IDがないよ
+                    span(v-show='validation.id.minLength && id') IDが短い
+                    span(v-show='validation.id.maxLength') IDが長い
+                dt
+                    label Password:
+                dd
+                    input(type='password', v-on='change:onCheckPass', v-model='password', v-validate='required, minLength: 8, maxLength: 16' placeholder='hogehoge')
+                dd.validation
+                    span(v-if='validation.password.required && !checkFlg.password') Passwordないよ
+                    span(v-if='validation.password.minLength && password') passwordがみじかいよ
+                    span(v-if='validation.password.maxLength') passwordがながいよ
+                dt
+                    label mailAddress:
+                dd
+                    input(type='email', v-model='email', v-validate='required, email' placeholder='hoge@hoge.com')
+                dd.validation
+                    span(v-if='validation.email.required && !onCheckMail') メールアドレスは必須です
+                    span(v-if='validation.email.email && validation.email.dirty') メールアドレスの形式が不正です！
+                dt
+                    label mailAddress確認:
+                dd
+                    input(type='email', v-model='emailConfirm', v-on='onCheckMailConfirm', v-validate='required, match:email' placeholder='hoge@hoge.com')
+                dd.validation
+                    span(v-if='validation.emailConfirm.match') メールアドレスが一致しません
+                input#submit(type='submit', value='send' v-class='disable:!valid')
+
+                //dt
+                //    label お名前:
+                //dd
+                //    input(type='text', v-model='name', v-validate='required')
+                //dd.validation
+                //    span(v-if='validation.name.required') お名前入力してください
+                //dt
+                //    label フリガナ:
+                //dd
+                //    input(type='text', v-model='kana', v-validate='required,zenkakuKatakana')
+                //dd.validation
+                //    span(v-if='validation.kana.required') フリガナを入力してください
+                //    span(v-if='validation.kana.zenkakuKatakana') 全角カタカナを入力してください
+                //dt
+                //    label 電話番号:
+                //dd
+                //    input(type='text', v-model='tel', v-validate='required,keitaiNum')
+                //dd.validation
+                //    span(v-if='validation.tel.keitaiNum') 電話番号を入力してください
+                //dt
+                //    label 郵便番号:
+                //dd
+                //    input(type='text', v-model='postalCode', v-validate='required,postNum')
+                //dd.validation
+                //    span(v-if='validation.kana.zenkakuKatakana') 郵便番号を入力してください
+        script(src='js/app.js')
+
+
+
+
+
