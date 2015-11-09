@@ -238,13 +238,13 @@ gulp.task 'cssmin', ->
 
 gulp.task 'jsmin', ->
     gulp.src [distJs + '/*.js']
-        .pipe uglify()
+        .pipe uglify(preserveComments: 'some')
         .pipe gulp.dest(buildJs)
 
 gulp.task 'jsBundle', ->
     gulp.src ['./src/js/lib/*.js']
         .pipe concat('bundle.min.js')
-        .pipe uglify()
+        .pipe uglify(preserveComments: 'some')
         .pipe gulp.dest(distJs + '/lib')
 
 gulp.task 'buildJsBundle', ->
