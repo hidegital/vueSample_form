@@ -8,7 +8,7 @@ $(function() {
 });
 
 
-var app = module.exports = new Vue({
+new Vue({
     el: "#app",
     data: {
         id: "",

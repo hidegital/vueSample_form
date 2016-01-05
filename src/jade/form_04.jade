@@ -13,7 +13,8 @@ html(lang='en')
                 dt
                     label ID:
                 dd
-                    input(type='text', v-model='id', v-on='change:onCheckId', v-validate='required, minLength: 3, maxLength: 16' placeholder='hoge')
+                    input(type='text', v-model='id', v-on='' +
+                    '', v-validate='required, minLength: 3, maxLength: 16' placeholder='hoge')
                 dd.validation
                     span(v-show='validation.id.required && !checkFlg.id' style="display:none") IDがないよ
                     span(v-show='validation.id.minLength && id') IDが短い
